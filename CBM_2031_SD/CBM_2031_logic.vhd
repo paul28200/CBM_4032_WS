@@ -166,7 +166,7 @@ architecture Behavioral of CBM_2031_logic is
 	signal VB_I, VB_O, VB_OE : std_logic_vector(7 downto 0);
 	signal UCD4_CA1_I, UCD4_CA2_I, UCD4_CA2_O, UCD4_CA2_OE, UCD4_CB2_I, UCD4_CB2_O, UCD4_CB2_OE : std_logic;
 	
---Signaux Mémoires
+--Signaux MÃ©moires
 	signal ena_RAM, ena_ROM_C, ena_ROM_E, ena_RAM_tmp, ena_ROM_C_tmp, ena_ROM_E_tmp : std_logic;
 	signal data_RAM, data_ROM_C, data_ROM_E : std_logic_vector(7 downto 0);
 	
@@ -179,7 +179,7 @@ architecture Behavioral of CBM_2031_logic is
 --Signaux drive
 	signal cpu_so_n, soe : std_logic;
 
---Selection du n° device
+--Selection du nÂ° device
 	--constant ds : std_logic_vector(1 downto 0) := "00";	-- 00 = #8, 01 = #9, 10 = #10, 11 = #11
 
 --Test clk
@@ -204,7 +204,7 @@ begin
 		);
     rst_n <= not rst;
 	
-	we_sync <= we_control_6502 and phi2; --(not clk_1MHz) and (not clk_2MHz);	-- Le signal WE du 6502 doit être masqué par l'horloge pour arrêter l'ecriture en RAM dès la fin de l'instruction
+	we_sync <= we_control_6502 and phi2; --(not clk_1MHz) and (not clk_2MHz);	-- Le signal WE du 6502 doit Ãªtre masquÃ© par l'horloge pour arrÃªter l'ecriture en RAM dÃ¨s la fin de l'instruction
 	irq <= irq_UAB1 and irq_UCD4;
 	
 --Decodage d'adresses
@@ -224,7 +224,7 @@ begin
 	ena_UCD4 <= ena_UCD4_tmp;
 end process;
 
---Bus de données 6502
+--Bus de donnÃ©es 6502
 	data_bus_in_6502 <= data_RAM when address_bus_6502(15 downto 11) = "00000" else
 						data_ROM_C when address_bus_6502(15 downto 13) = "110" else
 						data_ROM_E when address_bus_6502(15 downto 13) = "111" else
@@ -266,11 +266,11 @@ end process;
 		 I_RS => address_bus_6502(3 downto 0),	 	 
 		 I_DATA => data_bus_out_6502,
 		 O_DATA => data_UAB1,
-		 O_DATA_OE_L => open, --la sélection est faite par le décodeur d'adresses
+		 O_DATA_OE_L => open, --la sÃ©lection est faite par le dÃ©codeur d'adresses
 
 		 I_RW_L => we_n_control_6502,
 		 I_CS1 => ena_UAB1,
-		 I_CS2_L => '0',	--la sélection du VIA se fait uniquement avec Ena_VIA
+		 I_CS2_L => '0',	--la sÃ©lection du VIA se fait uniquement avec Ena_VIA
 
 		 O_IRQ_L => irq_UAB1,
 		 -- port a
@@ -301,7 +301,7 @@ end process;
 		 ENA_4 => clk_4MHz, -- clk enable
 		 CLK => clk_8MHz);
 
---Logique câblée des sorties IEEE 488
+--Logique cÃ¢blÃ©e des sorties IEEE 488
 pb_i_UAB1 <= (pb_o_UAB1 or pb_oe_UAB1) and (ATN_N_IN & DAV_IN_tmp & "11" &
 					EOI_IN_tmp & NDAC_IN_tmp & NRFD_IN_tmp & ATNA_IN);
 		 ATNA_OUT 		<= pb_o_UAB1(0) or pb_oe_UAB1(0);
@@ -327,13 +327,13 @@ pb_i_UAB1 <= (pb_o_UAB1 or pb_oe_UAB1) and (ATN_N_IN & DAV_IN_tmp & "11" &
 	NDAC_IN_tmp <= NDAC_IN when TE ='1' else NDAC_OUT_tmp;
 
 	DAV_OUT <= DAV_OUT_tmp when TE ='1' else '1';			--DAV_OUT est transmis uniquement si TE = '1';
-	DAV_IN_tmp <= DAV_IN when TE ='0' else DAV_OUT_tmp;	--DAV_IN est reçu uniquement si TE = '0';
+	DAV_IN_tmp <= DAV_IN when TE ='0' else DAV_OUT_tmp;	--DAV_IN est reÃ§u uniquement si TE = '0';
 
 	EOI_OUT <= EOI_OUT_tmp; -- when (T_R xor ATN_IN)='0' else '1';
 	EOI_IN_tmp <= EOI_IN when ((DC xor ATN_IN)='1' or (DC xor TE)='1') else EOI_OUT_tmp;
 
 	DATA_OUT <= (DATA_OUT_tmp or DATA_OUT_OE) when T_R ='1' else x"FF";		--DATA_OUT est transmis uniquement si T_R = '1';
-	DATA_IN_tmp <= DATA_IN when T_R ='0' else DATA_OUT_tmp; --DATA_IN est reçu uniquement si T_R = '0';
+	DATA_IN_tmp <= DATA_IN when T_R ='0' else DATA_OUT_tmp; --DATA_IN est reÃ§u uniquement si T_R = '0';
 
 
 	--VIA disk control
@@ -341,11 +341,11 @@ pb_i_UAB1 <= (pb_o_UAB1 or pb_oe_UAB1) and (ATN_N_IN & DAV_IN_tmp & "11" &
 		 I_RS => address_bus_6502(3 downto 0),	 	 
 		 I_DATA => data_bus_out_6502,
 		 O_DATA => data_UCD4,
-		 O_DATA_OE_L => open, --la sélection est faite par le décodeur d'adresses
+		 O_DATA_OE_L => open, --la sÃ©lection est faite par le dÃ©codeur d'adresses
 
 		 I_RW_L => we_n_control_6502,
 		 I_CS1 => ena_UCD4,
-		 I_CS2_L => '0',	--la sélection du VIA se fait uniquement avec Ena_VIA
+		 I_CS2_L => '0',	--la sÃ©lection du VIA se fait uniquement avec Ena_VIA
 
 		 O_IRQ_L => irq_UCD4,
 		 -- port a
