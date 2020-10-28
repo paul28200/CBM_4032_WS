@@ -39,10 +39,10 @@ entity Generation_Video is
 					Donnee_RAM_Video_in : in std_logic_vector(7 downto 0);
 					Donnee_RAM_Video_out : out std_logic_vector(7 downto 0);
 					Donnee_reg_CRTC_out : out std_logic_vector(7 downto 0);
-					we : in std_logic;		--	we = 1 pour écrire dans la RAM vidéo
-					ena : in std_logic;		-- ena = 1 pour activer l'accès à la RAM vidéo
-					ena_crtc : in std_logic; -- ena=1 pour accéder au registre du CRTC
-					graphic : in std_logic);	-- graphic = 0 pour jeu de caractères graphiques
+					we : in std_logic;		--	we = 1 pour Ã©crire dans la RAM vidÃ©o
+					ena : in std_logic;		-- ena = 1 pour activer l'accÃ¨s Ã  la RAM vidÃ©o
+					ena_crtc : in std_logic; -- ena=1 pour accÃ©der au registre du CRTC
+					graphic : in std_logic);	-- graphic = 0 pour jeu de caractÃ¨res graphiques
 					
 end Generation_Video;
 
