@@ -57,7 +57,7 @@ begin
 		if (clk_32MHz'event and clk_32MHz='1') then
 			if count1MHz >= 15 then
 				clk_1tmp <= not clk_1tmp;	--Division encore par 2 ce qui fait 32
-				clk_2tmp <= '0';	--Le clk_2MHz est à l'état bas après chaque transition de clk_1MHz
+				clk_2tmp <= '0';	--Le clk_2MHz est Ã  l'Ã©tat bas aprÃ¨s chaque transition de clk_1MHz
 				clk_4tmp <= '0';
 				clk_8tmp <= '0';
 				clk_16tmp <= '0';
@@ -71,7 +71,7 @@ begin
 					clk_8tmp <= not clk_8tmp;
 				end if;
 				if count1MHz = 7 then
-					clk_2tmp <= '1';	--Le clk_2MHz est à l'état haut à mi-période de clk_1MHz
+					clk_2tmp <= '1';	--Le clk_2MHz est Ã  l'Ã©tat haut Ã  mi-pÃ©riode de clk_1MHz
 				end if;
 				clk_1tmp <= clk_1tmp;
 				count1MHz <= count1MHz + 1;
